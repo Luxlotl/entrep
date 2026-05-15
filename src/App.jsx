@@ -1,4 +1,7 @@
+
 import { useEffect, useMemo, useState } from 'react'
+import { Eye, EyeOff, Search, Bell, ArrowUpRight, ArrowDownLeft, CreditCard, Camera, CheckCircle2,} from 'lucide-react'
+import './App.css'
 
 const transactions = [
   { id: 1, name: 'Starbucks', category: 'Food & Drink', amount: 5.5, date: 'Today', icon: '☕' },
@@ -174,48 +177,96 @@ function Security({ goToApp }) {
 }
 
 function Dashboard({ hideAmounts, setHideAmounts, goToApp }) {
-  const totalBalance = 2450.5
-  const monthlyBudget = 1500
-  const spent = 1200
+  const totalBalance = 135420.5
+const monthlyBudget = 85000
+const spent = 62450
   const remaining = monthlyBudget - spent
   const budgetPercent = Math.round((spent / monthlyBudget) * 100)
 
   return (
-    <>
-      <div className="topbar">
-        <div>
-          <p className="muted">Hello, User</p>
-          <h2>Dashboard</h2>
-        </div>
-        <button className="icon-btn" onClick={() => setHideAmounts(!hideAmounts)}>{hideAmounts ? '🙈' : '👁️'}</button>
+  <>
+    <div className="topbar">
+      <div>
+        <p className="muted">Welcome Back 👋</p>
+        <h2>Dashboard</h2>
       </div>
 
-      <div className="balance-card">
+      
+    </div>
+
+    <div className="balance-card premium-card">
+      <div className="balance-top">
         <p>Total Balance</p>
-        <h1>{hideAmounts ? '••••••' : `$${totalBalance.toFixed(2)}`}</h1>
-        <small>Card ending in 4829</small>
+       <div className="card-chip" />
       </div>
 
-      <div className="card">
-        <div className="row">
-          <h3>Monthly Budget</h3>
-          <strong>${spent}/${monthlyBudget}</strong>
-        </div>
-        <div className="progress"><span style={{ width: `${budgetPercent}%` }} /></div>
-        <p className="muted">${remaining} remaining this month</p>
-      </div>
-
-      <div className="row">
-        <h3>Recent Transactions</h3>
-        <button className="link" onClick={() => goToApp('transactions')}>View All →</button>
-      </div>
-
-      {transactions.slice(0, 3).map((item) => <TransactionItem key={item.id} item={item} hideAmounts={hideAmounts} />)}
-
-      <div className="insight">💡 You're spending 20% more on groceries this month. Try meal planning to save money.</div>
-    </>
-  )
+      <h1>
+       {hideAmounts
+  ? '••••••'
+  : `₱${totalBalance.toLocaleString()}`
 }
+      </h1>
+
+      <small>**** 4829</small>
+</div>
+
+    <div className="stats-grid">
+      <div className="mini-card">
+        <p>Income</p>
+        <h3>₱245,000</h3>
+      </div>
+
+      <div className="mini-card">
+        <p>Expenses</p>
+       <h3>₱62,450</h3>
+      </div>
+
+      <div className="mini-card">
+        <p>Savings</p>
+       <h3>₱182,550</h3>
+      </div>
+    </div>
+
+    <div className="card">
+      <div className="row">
+        <h3>Weekly Spending</h3>
+        <span className="green">+12%</span>
+      </div>
+
+      <div className="chart">
+        {[45, 80, 65, 90, 55, 70, 95].map((v, i) => (
+          <span key={i} style={{ height: `${v}%` }} />
+        ))}
+      </div>
+    </div>
+
+    <div
+  className="row"
+  style={{ marginBottom: '20px' }}
+>
+      <h3>Recent Transactions</h3>
+
+      <button
+        className="link"
+        onClick={() => goToApp('transactions')}
+      >
+        View All →
+      </button>
+    </div>
+
+    {transactions.slice(0, 3).map((item) => (
+      <TransactionItem
+        key={item.id}
+        item={item}
+        hideAmounts={hideAmounts}
+      />
+    ))}
+
+    <div className="insight modern-insight">
+      💡 You're spending 20% more on groceries this month.
+    </div>
+  </>
+)}
 
 function Transactions({ hideAmounts, setHideAmounts }) {
   const [search, setSearch] = useState('')
@@ -228,57 +279,160 @@ function Transactions({ hideAmounts, setHideAmounts }) {
     return matchesSearch && matchesFilter
   })
 
-  return (
-    <>
-      <div className="topbar">
-        <h2>Transactions</h2>
-        <button className="icon-btn" onClick={() => setHideAmounts(!hideAmounts)}>{hideAmounts ? '🙈' : '👁️'}</button>
-      </div>
+ return (
+  <>
+    <div className="topbar">
+      <h2>Transactions</h2>
+    </div>
 
-      <input className="search" placeholder="Search transactions..." value={search} onChange={(e) => setSearch(e.target.value)} />
+    <div className="sticky-filters">
+      <input
+        className="search modern-search"
+        placeholder="Search transactions..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
       <div className="chips">
         {categories.map((category) => (
-          <button key={category} className={filter === category ? 'chip active' : 'chip'} onClick={() => setFilter(category)}>{category}</button>
+          <button
+            key={category}
+            className={
+              filter === category
+                ? 'chip active'
+                : 'chip'
+            }
+            onClick={() => setFilter(category)}
+          >
+            {category}
+          </button>
         ))}
       </div>
+    </div>
 
-      {filtered.length ? filtered.map((item) => <TransactionItem key={item.id} item={item} hideAmounts={hideAmounts} />) : <p className="empty">No transactions found.</p>}
-    </>
-  )
-}
+    <div className="transaction-group">
+      <p className="group-label">Today</p>
+
+      {filtered
+        .filter((item) => item.date === 'Today')
+        .map((item) => (
+          <TransactionItem
+            key={item.id}
+            item={item}
+            hideAmounts={hideAmounts}
+          />
+        ))}
+    </div>
+
+    <div className="transaction-group">
+      <p className="group-label">Earlier</p>
+
+      {filtered
+        .filter((item) => item.date !== 'Today')
+        .map((item) => (
+          <TransactionItem
+            key={item.id}
+            item={item}
+            hideAmounts={hideAmounts}
+          />
+        ))}
+    </div>
+
+    {!filtered.length && (
+      <div className="empty-state">
+        <span>🔍</span>
+        <h3>No Transactions Found</h3>
+        <p>Try another keyword or category.</p>
+      </div>
+    )}
+  </>
+) }
 
 function ScanReceipt({ goToApp }) {
   const [scanned, setScanned] = useState(false)
 
-  if (scanned) {
+  if (!scanned) {
     return (
       <>
-        <h2>Review Receipt</h2>
-        <div className="card">
-          <h3>Starbucks</h3>
-          <p className="muted">April 29, 2026</p>
-          <div className="row"><span>Caffe Latte</span><strong>$4.50</strong></div>
-          <div className="row"><span>Tax</span><strong>$1.00</strong></div>
-          <hr />
-          <div className="row total"><span>Total</span><strong>$5.50</strong></div>
-          <p className="secure">🔒 End-to-End Encrypted</p>
+        <div className="topbar">
+          <h2>Scan Receipt</h2>
         </div>
-        <button className="primary" onClick={() => goToApp('dashboard')}>Save Receipt</button>
-        <button className="secondary" onClick={() => setScanned(false)}>Scan Again</button>
+
+        <div className="scanner-ui">
+          <div className="scanner-overlay">
+            <div className="scanner-frame">
+              <div className="scan-line" />
+            </div>
+          </div>
+        </div>
+
+        <p className="scan-text">
+          Align your receipt inside the frame
+        </p>
+
+        <div className="scan-tips">
+          <div>✅ Good lighting</div>
+          <div>✅ Flat receipt</div>
+          <div>✅ Clear text</div>
+        </div>
+
+        <button
+          className="primary"
+          onClick={() => setScanned(true)}
+        >
+          📸 Take Photo
+        </button>
+
+        <button
+          className="ghost"
+          onClick={() => goToApp('dashboard')}
+        >
+          Cancel
+        </button>
       </>
     )
   }
 
   return (
     <>
-      <h2>Scan Receipt</h2>
-      <div className="camera-box">
-        <div className="receipt-frame">📄</div>
+      <h2>Review Receipt</h2>
+
+      <div className="card">
+        <h3>Starbucks</h3>
+
+        <p className="muted">April 29, 2026</p>
+
+        <div className="row">
+          <span>Caffe Latte</span>
+          <strong>₱252.00</strong>
+        </div>
+
+        <div className="row">
+          <span>Tax</span>
+          <strong>₱56.00</strong>
+        </div>
+
+        <hr />
+
+        <div className="row total">
+          <span>Total</span>
+          <strong>₱308.00</strong>
+        </div>
       </div>
-      <p className="muted center-text">Align the receipt within the frame. Make sure the text is clear.</p>
-      <button className="primary" onClick={() => setScanned(true)}>Take Photo</button>
-      <button className="ghost" onClick={() => goToApp('dashboard')}>Cancel</button>
+
+      <button
+        className="primary"
+        onClick={() => goToApp('dashboard')}
+      >
+        Save Receipt
+      </button>
+
+      <button
+        className="secondary"
+        onClick={() => setScanned(false)}
+      >
+        Scan Again
+      </button>
     </>
   )
 }
@@ -298,15 +452,15 @@ function Analytics() {
       <div className="feature-grid">
         <Feature icon="☕" title="Highest Spending" text="Food & Drink +15%" />
         <Feature icon="🎬" title="Lowest Spending" text="Entertainment -5%" />
-        <Feature icon="📅" title="Daily Average" text="$42.50 Stable" />
+        <Feature icon="📅" title="Daily Average" text="₱2,380 Stable" />
       </div>
 
       <div className="card">
         <h3>Category Breakdown</h3>
-        <div className="row"><span>☕ Food & Drink</span><strong>$380</strong></div>
-        <div className="row"><span>🚗 Transportation</span><strong>$210</strong></div>
+        <div className="row"><span>☕ Food & Drink</span><strong>₱21,280</strong></div>
+        <div className="row"><span>🚗 Transportation</span><strong>₱11,760</strong></div>
         <div className="row"><span>🛒 Groceries</span><strong>$170</strong></div>
-        <div className="row"><span>🎬 Entertainment</span><strong>$85</strong></div>
+        <div className="row"><span>🎬 Entertainment</span><strong>₱4,760</strong></div>
       </div>
     </>
   )
@@ -372,16 +526,29 @@ function Feature({ icon, title, text }) {
 }
 
 function TransactionItem({ item, hideAmounts }) {
-  return (
-    <div className="transaction">
-      <div className="transaction-icon">{item.icon}</div>
-      <div>
-        <h3>{item.name}</h3>
-        <p>{item.category} • {item.date}</p>
-      </div>
-      <strong>{hideAmounts ? '•••' : `-$${item.amount.toFixed(2)}`}</strong>
+ return (
+  <div className="transaction modern-transaction">
+    <div className="transaction-icon modern-icon">
+      {item.icon}
     </div>
-  )
+
+    <div className="transaction-content">
+      <h3>{item.name}</h3>
+
+      <div className="transaction-meta">
+        <span>{item.category}</span>
+        <span>•</span>
+        <span>{item.date}</span>
+      </div>
+    </div>
+
+    <strong className="transaction-amount">
+      {hideAmounts
+        ? '•••'
+       : `-₱${(item.amount * 56).toFixed(2)}`}
+    </strong>
+  </div>
+)
 }
 
 export default App
