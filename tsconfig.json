@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["mobile/src/*"],
+      "@/assets/*": ["mobile/assets/*"]
+    }
+  },
+  "include": [
+    "mobile/**/*.ts",
+    "mobile/**/*.tsx",
+    "mobile/.expo/types/**/*.ts",
+    "mobile/expo-env.d.ts"
+  ]
+}

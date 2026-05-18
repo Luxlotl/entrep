@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity Finance - Smart Expense Tracking</title>
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <!-- Outer Desktop Wrapper to hold Simulator & Side Panel -->
+  <div class="simulator-desktop-container">
+    
+    <!-- Phone Mockup Shell -->
+    <div class="phone-shell">
+      <!-- Speaker Notch / Dynamic Island -->
+      <div class="dynamic-island"></div>
+      
+      <!-- Side Physical Buttons -->
+      <div class="side-button volume-up"></div>
+      <div class="side-button volume-down"></div>
+      <div class="side-button power"></div>
+
+      <!-- App Viewport Screen -->
+      <div class="phone-screen">
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <div class="status-time" id="status-time">09:41</div>
+          <div class="status-icons">
+            <!-- Cellular Signal SVG -->
+            <svg class="icon-wifi" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M12 21a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM12 3a9 9 0 0 1 9 9 1 1 0 0 1-2 0 7 7 0 0 0-14 0 1 1 0 0 1-2 0 9 9 0 0 1 9-9zm0 5a5 5 0 0 1 5 5 1 1 0 0 1-2 0 3 3 0 0 0-6 0 1 1 0 0 1-2 0 5 5 0 0 1 5-5zm0 5a1 1 0 0 1 1 1 1 1 0 0 1-2 0 1 1 0 0 1 1-1z"/>
+            </svg>
+            <svg class="icon-signal" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <rect x="2" y="16" width="3" height="5" rx="1" />
+              <rect x="7" y="12" width="3" height="9" rx="1" />
+              <rect x="12" y="8" width="3" height="13" rx="1" />
+              <rect x="17" y="4" width="3" height="17" rx="1" />
+            </svg>
+            <!-- Battery Indicator -->
+            <div class="battery-capsule">
+              <div class="battery-level"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- APP CONTAINER -->
+        <div class="app-container" id="app-container">
+
+          <!-- ================= SCREEN 1: SPLASH SCREEN ================= -->
+          <div class="screen active" id="screen-splash">
+            <div class="splash-content">
+              <!-- App Logo (Animated) -->
+              <div class="logo-wrapper">
+                <svg class="animated-logo" width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#38bdf8" />
+                      <stop offset="50%" stop-color="#3b82f6" />
+                      <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                    <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="8" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  <!-- Interconnected dimensional rings -->
+                  <circle cx="50" cy="50" r="38" stroke="url(#logoGrad)" stroke-width="8" stroke-dasharray="160 80" filter="url(#logoGlow)" />
+                  <path d="M35 65C35 48.4315 48.4315 35 65 35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+                  <path d="M65 35L55 35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+                  <path d="M65 35L65 45" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+                  <!-- Inner financial spark -->
+                  <polygon points="50,42 53,49 60,50 54,54 56,61 50,57 44,61 46,54 40,50 47,49" fill="#10b981" />
+                </svg>
+              </div>
+
+              <!-- Brand Name & Tagline -->
+              <div class="splash-branding">
+                <h1 class="brand-title">Clarity Finance</h1>
+                <p class="brand-tagline">Smarter expenses. Clearer goals.</p>
+              </div>
+
+              <!-- Animated Loader Dots -->
+              <div class="dots-loader" id="dots-loader">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= SCREEN 2: ONBOARDING SCREEN ================= -->
+          <div class="screen" id="screen-onboarding">
+            <!-- Skip Button -->
+            <button class="btn-skip" id="btn-onboarding-skip">Skip</button>
+
+            <!-- Slides Swiper Container -->
+            <div class="slides-container" id="slides-container">
+              
+              <!-- SLIDE 1 -->
+              <div class="slide active" data-index="0">
+                <div class="slide-illustration">
+                  <!-- Smart Scan OCR Illustration -->
+                  <svg class="illustration-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="30" width="100" height="140" rx="16" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2" />
+                    <!-- Inside receipt -->
+                    <rect x="65" y="55" width="70" height="90" rx="6" fill="#1e293b" />
+                    <line x1="75" y1="70" x2="125" y2="70" stroke="rgba(255, 255, 255, 0.4)" stroke-width="4" stroke-linecap="round" />
+                    <line x1="75" y1="85" x2="105" y2="85" stroke="rgba(255, 255, 255, 0.4)" stroke-width="4" stroke-linecap="round" />
+                    <line x1="75" y1="100" x2="115" y2="100" stroke="rgba(255, 255, 255, 0.2)" stroke-width="4" stroke-linecap="round" />
+                    <line x1="75" y1="115" x2="95" y2="115" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" />
+                    
+                    <!-- Scanner Laser sweeping across -->
+                    <g class="scanner-laser">
+                      <line x1="45" y1="95" x2="155" y2="95" stroke="#10b981" stroke-width="3" stroke-linecap="round" filter="drop-shadow(0 0 8px #10b981)" />
+                      <polygon points="50,95 150,95 130,130 70,130" fill="url(#laserGlowGrad)" opacity="0.15" />
+                    </g>
+                    <defs>
+                      <linearGradient id="laserGlowGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" />
+                        <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <!-- Floating Camera Target lines -->
+                    <path d="M45 45L45 35L55 35" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                    <path d="M155 45L155 35L145 35" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                    <path d="M45 155L45 165L55 165" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                    <path d="M155 155L155 165L145 165" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                  </svg>
+                </div>
+                <div class="slide-text">
+                  <h2 class="slide-title">Track Your Expenses Easily</h2>
+                  <p class="slide-desc">Snap a picture of any receipt. Our advanced OCR scanner extracts merchants, items, and tax rates instantly into your ledger.</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 -->
+              <div class="slide" data-index="1">
+                <div class="slide-illustration">
+                  <!-- Analytics Charts Illustration -->
+                  <svg class="illustration-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="75" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.05)" />
+                    <!-- Bar Chart Elements -->
+                    <rect x="55" y="110" width="18" height="40" rx="4" fill="#3b82f6" opacity="0.6" />
+                    <rect x="80" y="80" width="18" height="70" rx="4" fill="#38bdf8" />
+                    <rect x="105" y="95" width="18" height="55" rx="4" fill="#10b981" />
+                    <rect x="130" y="60" width="18" height="90" rx="4" fill="#818cf8" />
+                    <!-- Rising Spline overlay -->
+                    <path class="chart-line" d="M50 130 Q 80 80, 110 90 T 170 50" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" fill="none" filter="drop-shadow(0 4px 8px rgba(56,189,248,0.4))" />
+                    <!-- Glowing Dot -->
+                    <circle class="chart-pulse-dot" cx="170" cy="50" r="6" fill="#10b981" stroke="#fff" stroke-width="2" />
+                  </svg>
+                </div>
+                <div class="slide-text">
+                  <h2 class="slide-title">Smart Insights & Budget Control</h2>
+                  <p class="slide-desc">Receive interactive pie charts, personalized monthly trends, and visual indicators pointing out optimization opportunities in real time.</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 -->
+              <div class="slide" data-index="2">
+                <div class="slide-illustration">
+                  <!-- Security Lock & Shield Illustration -->
+                  <svg class="illustration-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#38bdf8" />
+                        <stop offset="100%" stop-color="#1e1b4b" />
+                      </linearGradient>
+                    </defs>
+                    <!-- Security shield -->
+                    <path d="M100 35C125 35 155 45 155 45C155 85 145 135 100 165C55 135 45 85 45 45C45 45 75 35 100 35Z" fill="url(#shieldGrad)" stroke="rgba(56, 189, 248, 0.4)" stroke-width="3" filter="drop-shadow(0 8px 16px rgba(16,185,129,0.2))" />
+                    <!-- Shiny reflection stroke -->
+                    <path d="M100 45C118 45 142 53 142 53C142 85 133 125 100 152" stroke="rgba(255, 255, 255, 0.15)" stroke-width="3" stroke-linecap="round" />
+                    <!-- Animated padlock -->
+                    <g class="security-lock">
+                      <rect x="80" y="90" width="40" height="32" rx="6" fill="#10b981" />
+                      <!-- Lock shackle -->
+                      <path d="M87 90V78C87 70.82 92.82 65 100 65C107.18 65 113 70.82 113 78V90" stroke="#38bdf8" stroke-width="4" fill="none" stroke-linecap="round" />
+                      <circle cx="100" cy="103" r="3" fill="#0f172a" />
+                      <path d="M100 106V113" stroke="#0f172a" stroke-width="2" stroke-linecap="round" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="slide-text">
+                  <h2 class="slide-title">Secure & Private</h2>
+                  <p class="slide-desc">Rest easy knowing your statements and receipts are fully encrypted with AES-256 shields. Your personal financial habits are completely anonymous.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="onboarding-controls">
+              <!-- Slide Indicator Dots -->
+              <div class="onboarding-dots" id="onboarding-dots">
+                <span class="dot-nav active" data-slide="0"></span>
+                <span class="dot-nav" data-slide="1"></span>
+                <span class="dot-nav" data-slide="2"></span>
+              </div>
+              
+              <!-- Action Button -->
+              <button class="btn-primary" id="btn-onboarding-action">Next</button>
+            </div>
+          </div>
+
+          <!-- ================= SCREEN 3: WELCOME SCREEN ================= -->
+          <div class="screen" id="screen-welcome">
+            <div class="welcome-container">
+              <!-- Animated Welcome Logo -->
+              <div class="welcome-logo-small">
+                <svg width="45" height="45" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="38" stroke="url(#logoGrad)" stroke-width="8" stroke-dasharray="160 80" />
+                  <path d="M35 65C35 48.4315 48.4315 35 65 35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+                  <polygon points="50,42 53,49 60,50 54,54 56,61 50,57 44,61 46,54 40,50 47,49" fill="#10b981" />
+                </svg>
+              </div>
+
+              <div class="welcome-header">
+                <h1 class="welcome-title">Welcome to <br><span class="gradient-text">Clarity Finance</span></h1>
+                <p class="welcome-tagline">Unlock clarity. Elevate your savings.</p>
+              </div>
+
+              <!-- Feature Cards Layout -->
+              <div class="feature-cards-grid">
+                <!-- Card 1 -->
+                <div class="feature-card">
+                  <div class="feature-card-icon">📸</div>
+                  <div class="feature-card-body">
+                    <h3 class="feature-card-title">Smart Scanning</h3>
+                    <p class="feature-card-desc">Scan receipts instantly</p>
+                  </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card">
+                  <div class="feature-card-icon">📊</div>
+                  <div class="feature-card-body">
+                    <h3 class="feature-card-title">Analytics</h3>
+                    <p class="feature-card-desc">Track spending trends</p>
+                  </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card">
+                  <div class="feature-card-icon">🔒</div>
+                  <div class="feature-card-body">
+                    <h3 class="feature-card-title">Secure</h3>
+                    <p class="feature-card-desc">Your data is encrypted</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action CTAs -->
+              <div class="welcome-ctas">
+                <button class="btn-primary ripple-btn" id="btn-welcome-signup">Create Account</button>
+                <button class="btn-outline ripple-btn" id="btn-welcome-login">Login</button>
+                <button class="btn-ghost" id="btn-welcome-guest">Continue as Guest</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= SCREEN 4: LOGIN SCREEN ================= -->
+          <div class="screen" id="screen-login">
+            <!-- Screen Header with Back Arrow -->
+            <div class="screen-header">
+              <button class="back-arrow" id="btn-login-back">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <h2 class="header-title">Login</h2>
+              <div class="header-placeholder"></div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="form-container">
+              <form id="form-login" onsubmit="event.preventDefault();">
+                
+                <!-- Email Field -->
+                <div class="form-group">
+                  <label class="form-label" for="login-email">Email or Username</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="login-email" class="form-input" placeholder="name@example.com" required>
+                  </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                  <label class="form-label" for="login-password">Password</label>
+                  <div class="input-wrapper">
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                    <button type="button" class="password-toggle" id="btn-login-pw-toggle" aria-label="Toggle Password Visibility">
+                      <!-- Eyeball Open SVG -->
+                      <svg class="eye-open" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      <!-- Eyeball Closed SVG (hidden by default) -->
+                      <svg class="eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password Options -->
+                <div class="form-options">
+                  <label class="remember-me-label">
+                    <input type="checkbox" id="login-remember" class="remember-checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="checkbox-text">Remember me</span>
+                  </label>
+                  <a href="#" class="forgot-link" id="link-forgot-pw">Forgot Password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="btn-primary" id="btn-login-submit">Login</button>
+              </form>
+
+              <!-- Social Divider -->
+              <div class="social-divider">
+                <span>or connect with</span>
+              </div>
+
+              <!-- Social Login Row -->
+              <div class="social-buttons">
+                <button class="social-btn btn-google" id="btn-login-google">
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.47 15.01 0 12 0 7.35 0 3.39 2.66 1.46 6.55l3.87 3a7.16 7.16 0 0 1 6.67-4.51z"/>
+                    <path fill="#4285F4" d="M23.49 12.27c0-.82-.07-1.6-.2-2.38H12v4.51h6.46a5.53 5.53 0 0 1-2.4 3.62v3l3.87 3c2.26-2.09 3.56-5.17 3.56-8.75z"/>
+                    <path fill="#FBBC05" d="M5.33 14.45A7.12 7.12 0 0 1 4.9 12c0-.87.15-1.72.43-2.52l-3.87-3A11.96 11.96 0 0 0 0 12c0 2.01.5 3.9 1.39 5.57l3.94-3.12z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.87-3c-1.1.74-2.5 1.18-4.06 1.18-3.11 0-5.75-2.1-6.69-4.94l-3.94 3.12A11.96 11.96 0 0 0 12 24z"/>
+                  </svg>
+                  <span>Google</span>
+                </button>
+                <button class="social-btn btn-facebook" id="btn-login-facebook">
+                  <svg fill="#1877F2" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Facebook</span>
+                </button>
+              </div>
+
+              <!-- Login Footer Links -->
+              <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="link-goto-signup">Create one</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= SCREEN 5: SIGN UP SCREEN ================= -->
+          <div class="screen" id="screen-signup">
+            <!-- Screen Header with Back Arrow -->
+            <div class="screen-header">
+              <button class="back-arrow" id="btn-signup-back">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <h2 class="header-title">Create Account</h2>
+              <div class="header-placeholder"></div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-container">
+              <form id="form-signup" onsubmit="event.preventDefault();">
+                
+                <!-- Full Name -->
+                <div class="form-group">
+                  <label class="form-label" for="signup-name">Full Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="signup-name" class="form-input" placeholder="John Doe" required>
+                  </div>
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group">
+                  <label class="form-label" for="signup-email">Email Address</label>
+                  <div class="input-wrapper">
+                    <input type="email" id="signup-email" class="form-input" placeholder="name@example.com" required>
+                  </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                  <label class="form-label" for="signup-password">Password</label>
+                  <div class="input-wrapper">
+                    <input type="password" id="signup-password" class="form-input" placeholder="Min. 8 characters" required>
+                    <button type="button" class="password-toggle" id="btn-signup-pw-toggle">
+                      <svg class="eye-open" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      <svg class="eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                  <label class="form-label" for="signup-confirm-password">Confirm Password</label>
+                  <div class="input-wrapper">
+                    <input type="password" id="signup-confirm-password" class="form-input" placeholder="Re-enter password" required>
+                    <button type="button" class="password-toggle" id="btn-signup-confirm-pw-toggle">
+                      <svg class="eye-open" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      <svg class="eye-closed hidden" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  <!-- Inline Error Validation Message -->
+                  <div class="validation-error hidden" id="signup-password-error">
+                    Passwords do not match.
+                  </div>
+                </div>
+
+                <!-- Terms & Conditions Checkbox -->
+                <div class="form-options">
+                  <label class="remember-me-label align-start">
+                    <input type="checkbox" id="signup-terms" class="remember-checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="checkbox-text agreement-text">
+                      I agree to the <a href="#" class="policy-link">Privacy Policy</a> & <a href="#" class="policy-link">Terms of Service</a>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Signup Button (Dynamically disabled until form matches validity criteria) -->
+                <button type="submit" class="btn-primary" id="btn-signup-submit" disabled>Create Account</button>
+              </form>
+
+              <!-- Social Signup Divider -->
+              <div class="social-divider">
+                <span>or sign up with</span>
+              </div>
+
+              <!-- Social Signup Buttons -->
+              <div class="social-buttons">
+                <button class="social-btn btn-google" id="btn-signup-google">
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.47 15.01 0 12 0 7.35 0 3.39 2.66 1.46 6.55l3.87 3a7.16 7.16 0 0 1 6.67-4.51z"/>
+                    <path fill="#4285F4" d="M23.49 12.27c0-.82-.07-1.6-.2-2.38H12v4.51h6.46a5.53 5.53 0 0 1-2.4 3.62v3l3.87 3c2.26-2.09 3.56-5.17 3.56-8.75z"/>
+                    <path fill="#FBBC05" d="M5.33 14.45A7.12 7.12 0 0 1 4.9 12c0-.87.15-1.72.43-2.52l-3.87-3A11.96 11.96 0 0 0 0 12c0 2.01.5 3.9 1.39 5.57l3.94-3.12z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.87-3c-1.1.74-2.5 1.18-4.06 1.18-3.11 0-5.75-2.1-6.69-4.94l-3.94 3.12A11.96 11.96 0 0 0 12 24z"/>
+                  </svg>
+                  <span>Google</span>
+                </button>
+                <button class="social-btn btn-facebook" id="btn-signup-facebook">
+                  <svg fill="#1877F2" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Facebook</span>
+                </button>
+              </div>
+
+              <!-- Footer Redirect -->
+              <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="link-goto-login">Login here</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= SCREEN 6: [BONUS] HOME DASHBOARD ================= -->
+          <div class="screen" id="screen-dashboard">
+            <!-- Dashboard Content Container (scrollable) -->
+            <div class="dashboard-scrollable">
+              
+              <!-- Dashboard Header -->
+              <div class="dashboard-header-bar">
+                <div class="user-greeting">
+                  <span class="greeting-subtitle" id="dashboard-user-greeting">Hello, Guest</span>
+                  <h3 class="greeting-title">Your Balance</h3>
+                </div>
+                <div class="notification-ring">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                  <span class="active-badge"></span>
+                </div>
+              </div>
+
+              <!-- Balance Overview Card -->
+              <div class="balance-card">
+                <div class="balance-meta">
+                  <span class="balance-amount">$5,248.90</span>
+                  <span class="balance-growth">+14.2% this month</span>
+                </div>
+                <div class="balance-sub-details">
+                  <div class="sub-detail-item">
+                    <span class="sub-detail-title">Income</span>
+                    <span class="sub-detail-val">$8,450.00</span>
+                  </div>
+                  <div class="sub-detail-separator"></div>
+                  <div class="sub-detail-item">
+                    <span class="sub-detail-title">Expenses</span>
+                    <span class="sub-detail-val">$3,201.10</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Monthly Expenses Chart Card -->
+              <div class="section-container">
+                <div class="section-header-flex">
+                  <h4 class="section-heading">Spending Overview</h4>
+                  <span class="section-link">View Details</span>
+                </div>
+                
+                <!-- Dynamic Interactive Line Chart Card -->
+                <div class="chart-card-container">
+                  <div class="chart-y-axis">
+                    <span>$1.5k</span>
+                    <span>$1.0k</span>
+                    <span>$0.5k</span>
+                    <span>$0.0k</span>
+                  </div>
+                  <div class="chart-plot-area">
+                    <!-- SVG Grid lines -->
+                    <svg class="chart-grid-svg" width="100%" height="100%">
+                      <line x1="0" y1="25%" x2="100%" y2="25%" stroke="rgba(255,255,255,0.05)" />
+                      <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(255,255,255,0.05)" />
+                      <line x1="0" y1="75%" x2="100%" y2="75%" stroke="rgba(255,255,255,0.05)" />
+                      <!-- Grid vertical columns -->
+                      <line x1="16.6%" y1="0" x2="16.6%" y2="100%" stroke="rgba(255,255,255,0.03)" />
+                      <line x1="33.3%" y1="0" x2="33.3%" y2="100%" stroke="rgba(255,255,255,0.03)" />
+                      <line x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255,255,255,0.03)" />
+                      <line x1="66.6%" y1="0" x2="66.6%" y2="100%" stroke="rgba(255,255,255,0.03)" />
+                      <line x1="83.3%" y1="0" x2="83.3%" y2="100%" stroke="rgba(255,255,255,0.03)" />
+                    </svg>
+
+                    <!-- Gradient Area below Spline Curve -->
+                    <svg class="chart-spline-svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="chartFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4" />
+                          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M 0 85 Q 16.6 60, 33.3 45 T 50 65 T 66.6 30 T 83.3 20 T 100 35 L 100 100 L 0 100 Z" fill="url(#chartFillGrad)" />
+                      <path d="M 0 85 Q 16.6 60, 33.3 45 T 50 65 T 66.6 30 T 83.3 20 T 100 35" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+
+                    <!-- Glowing Plot dots -->
+                    <div class="chart-dot" style="left: 33.3%; top: 45%;"></div>
+                    <div class="chart-dot" style="left: 66.6%; top: 30%;"></div>
+                    <div class="chart-dot highlighted" style="left: 83.3%; top: 20%;">
+                      <div class="chart-tooltip">$1,450</div>
+                    </div>
+                  </div>
+                  <div class="chart-x-axis">
+                    <span>Jan</span>
+                    <span>Feb</span>
+                    <span>Mar</span>
+                    <span>Apr</span>
+                    <span>May</span>
+                    <span>Jun</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transaction Feed Section -->
+              <div class="section-container">
+                <div class="section-header-flex">
+                  <h4 class="section-heading">Recent Expenses</h4>
+                  <span class="section-link">See All</span>
+                </div>
+                
+                <!-- Dynamic Transaction Items Feed -->
+                <div class="transaction-list" id="dashboard-transaction-list">
+                  <!-- Item 1 -->
+                  <div class="transaction-item">
+                    <div class="tx-icon tx-cafe">☕</div>
+                    <div class="tx-details">
+                      <span class="tx-title">Starbucks Coffee</span>
+                      <span class="tx-timestamp">Today, 2:30 PM • Food</span>
+                    </div>
+                    <div class="tx-value negative">-$8.50</div>
+                  </div>
+                  <!-- Item 2 -->
+                  <div class="transaction-item">
+                    <div class="tx-icon tx-grocery">🛒</div>
+                    <div class="tx-details">
+                      <span class="tx-title">Whole Foods Market</span>
+                      <span class="tx-timestamp">Yesterday, 5:10 PM • Grocery</span>
+                    </div>
+                    <div class="tx-value negative">-$74.20</div>
+                  </div>
+                  <!-- Item 3 -->
+                  <div class="transaction-item">
+                    <div class="tx-icon tx-subscription">🍿</div>
+                    <div class="tx-details">
+                      <span class="tx-title">Netflix Subscription</span>
+                      <span class="tx-timestamp">May 15 • Digital</span>
+                    </div>
+                    <div class="tx-value negative">-$15.49</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulated Camera Screen Layer (For OCR Scanning demo) -->
+            <div class="camera-simulator-overlay hidden" id="camera-overlay">
+              <div class="camera-lens-target">
+                <!-- Camera Target Frame Corners -->
+                <div class="lens-corner top-left"></div>
+                <div class="lens-corner top-right"></div>
+                <div class="lens-corner bottom-left"></div>
+                <div class="lens-corner bottom-right"></div>
+                
+                <!-- Simulated receipt paper in target lens -->
+                <div class="simulated-receipt-document" id="receipt-doc">
+                  <div class="receipt-doc-header">
+                    <h4>CANNED ROASTERY</h4>
+                    <p>SAN FRANCISCO, CA</p>
+                  </div>
+                  <div class="receipt-doc-divider">----------------------</div>
+                  <div class="receipt-doc-body">
+                    <div class="r-row"><span>1x Specialty Latte</span><span>$6.50</span></div>
+                    <div class="r-row"><span>1x Almond Croissant</span><span>$4.50</span></div>
+                    <div class="r-row"><span>TAX (8.5%)</span><span>$0.94</span></div>
+                  </div>
+                  <div class="receipt-doc-divider">----------------------</div>
+                  <div class="receipt-doc-total">
+                    <span>TOTAL EXPENSE</span><span>$11.94</span>
+                  </div>
+                </div>
+
+                <!-- Live OCR Scanning scanning line -->
+                <div class="camera-scanner-line" id="camera-line"></div>
+              </div>
+
+              <!-- Camera Top Action Bar -->
+              <div class="camera-top-bar">
+                <button class="camera-close-btn" id="btn-camera-close">✕</button>
+                <span class="camera-title-text">Scan Receipt</span>
+                <div class="camera-flash-toggle">⚡</div>
+              </div>
+
+              <!-- Camera Processing Loader Overlay -->
+              <div class="ocr-processing-overlay hidden" id="ocr-loader">
+                <div class="ocr-spinner"></div>
+                <h4 class="ocr-status-text">OCR Scanning...</h4>
+                <p class="ocr-substatus-text">Extracting merchant & amounts</p>
+              </div>
+
+              <!-- Camera Trigger Bottom Bar -->
+              <div class="camera-bottom-bar">
+                <div class="camera-gallery-icon">🖼️</div>
+                <button class="camera-trigger-button" id="btn-camera-snap"></button>
+                <div class="camera-info-icon">ℹ️</div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation Bar -->
+            <div class="bottom-nav">
+              <button class="nav-item active" id="nav-home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+              </button>
+              <button class="nav-item" id="nav-scan">
+                <span class="nav-icon camera-fab">📸</span>
+                <span class="nav-label">Scan</span>
+              </button>
+              <button class="nav-item" id="nav-analytics">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Insights</span>
+              </button>
+              <button class="nav-item" id="nav-logout">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-label">Logout</span>
+              </button>
+            </div>
+          </div>
+
+        </div> <!-- END OF APP CONTAINER -->
+
+        <!-- Home Indicator Swipe Bar (iOS feel) -->
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+
+    <!-- Right Side Information Desk (Adds extremely premium desktop context) -->
+    <div class="desktop-side-panel">
+      <div class="desk-header">
+        <span class="desk-badge">ACTIVE FLOW</span>
+        <h2 class="desk-title">Clarity Finance</h2>
+        <p class="desk-subtitle">High-Fidelity Mobile App Simulator</p>
+      </div>
+
+      <div class="desk-body">
+        <p class="desk-intro">Experience the core onboarding, identity check, OCR scanning engine, and insights in a simulated device workspace built with pure native web standards.</p>
+        
+        <div class="feature-status-list">
+          <div class="status-item done">
+            <span class="status-marker">✓</span>
+            <div class="status-info">
+              <h4>Splash Page</h4>
+              <p>Dynamic SVGs, pulse dot loaders, 3s transition.</p>
+            </div>
+          </div>
+          <div class="status-item done">
+            <span class="status-marker">✓</span>
+            <div class="status-info">
+              <h4>3-Slide Onboarding</h4>
+              <p>Dot-nav swiper, SVGs, Skip trigger, Next CTA.</p>
+            </div>
+          </div>
+          <div class="status-item done">
+            <span class="status-marker">✓</span>
+            <div class="status-info">
+              <h4>Welcome Page</h4>
+              <p>Colum-grid features, premium hover transformations.</p>
+            </div>
+          </div>
+          <div class="status-item done">
+            <span class="status-marker">✓</span>
+            <div class="status-info">
+              <h4>Secure Authentication Forms</h4>
+              <p>Live matching check, stateful toggler, Google integrations.</p>
+            </div>
+          </div>
+          <div class="status-item done">
+            <span class="status-marker">✓</span>
+            <div class="status-info">
+              <h4>Interactive Dashboard & OCR Scanning</h4>
+              <p>Simulate snap actions, real OCR parser feedback loop.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="desk-footer">
+        <span class="desk-tech">VANILLA STACK • 60 FPS CSS ANIMATIONS • HSL BLUE-GREEN GLOW SYSTEM</span>
+      </div>
+    </div>
+
+  </div> <!-- END OF OUTER DESKTOP WRAPPER -->
+
+  <script src="app.js"></script>
+</body>
+</html>

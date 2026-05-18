@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+mobile/node_modules/
+
+# Expo
+mobile/.expo/
+mobile/dist/
+
+# Environment variables
+.env
+*.env.local
+
+# Build outputs
+mobile/android/
+mobile/ios/
+
+# OS files
+.DS_Store
+Thumbs.db
